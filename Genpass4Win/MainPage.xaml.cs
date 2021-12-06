@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Security.Cryptography;
 using Windows.ApplicationModel.DataTransfer;
+using Windows.Foundation;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml.Controls;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
@@ -18,6 +21,7 @@ namespace Genpass4Win
 
         private static ulong PasswordLength = 12;
         private static int CharacterTypesAllowed = 0;
+        readonly private static RandomNumberGenerator rnd = RandomNumberGenerator.Create();
 
         // Handlers for changing the password length
         private void DecreasePasswordLength_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
@@ -34,15 +38,56 @@ namespace Genpass4Win
         // Handlers for generating, copying and viewing the password
         private void GenPassButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
+            ulong PasswordLengthOld = PasswordLength;
             // Get the password length
-            PasswordLength = UInt64.Parse(PasswordLengthBox.Text);
+            try
+            {
+                PasswordLength = UInt64.Parse(PasswordLengthBox.Text);
+            }
+            catch (Exception)
+            {
+                PasswordLength = PasswordLengthOld;
+                PasswordLengthBox.Text = PasswordLengthOld.ToString();
+            }
 
             // Ensure OutputBox.PasswordRevealMode is set according to the checkbox
             OutputBox.PasswordRevealMode = !(bool)ShowPassCheckbox.IsChecked ? PasswordRevealMode.Hidden : PasswordRevealMode.Visible;
 
+            // Get the allowed character types
+            bool UseLetters = (bool)LettersCheckbox.IsChecked;
+            bool UseNumbers = (bool)NumbersCheckbox.IsChecked;
+            bool UseSymbols = (bool)SymbolsCheckbox.IsChecked;
+
             // Write the password
-            // TODO: Implement the friggin` randomizer
-            OutputBox.Password = PasswordLength.ToString();
+            string GeneratedPassword = "";
+            byte[] GeneratedByte = { 0 };
+            for (ulong i = 0UL; i < PasswordLength; i++)
+            {
+                rnd.GetBytes(GeneratedByte);
+                GeneratedByte[0] %= 94;
+                GeneratedByte[0] += 32;
+                while (!ValidateChar((char)GeneratedByte[0], UseLetters, UseNumbers, UseSymbols))
+                    rnd.GetBytes(GeneratedByte);
+                GeneratedPassword += (char)GeneratedByte[0];
+            }
+            OutputBox.Password = GeneratedPassword;
+        }
+        private bool ValidateChar(in int chr, in bool UseLetters, in bool UseNumbers, in bool UseSymbols)
+        {
+            bool Accepted = false;
+            // Test Letters
+            if (((64 < chr && chr < 91) || (96 < chr && chr < 123))
+                && UseLetters == true)
+                Accepted = true;
+            // Test Numbers
+            if ((47 < chr && chr < 58)
+                && UseNumbers == true)
+                Accepted = true;
+            // Test symbols
+            if (((32 < chr && chr < 48) || (57 < chr && chr < 65) || (90 < chr && chr < 97) || (122 < chr && chr < 127))
+                && UseSymbols == true)
+                Accepted = true;
+            return Accepted;
         }
         private void ClipPassButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
