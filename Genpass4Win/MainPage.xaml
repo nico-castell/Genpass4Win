@@ -1,0 +1,52 @@
+﻿<Page x:Name="GenpassWindow"
+    x:Class="Genpass4Win.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Genpass4Win"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    d:DesignHeight="350" d:DesignWidth="400">
+
+    <Grid d:DesignHeight="350" d:DesignWidth="400">
+        <!-- View the password -->
+        <PasswordBox x:Name="OutputBox" PasswordRevealMode="Visible" Password="Your password will appear here"
+                 VerticalAlignment="Top" HorizontalAlignment="Stretch"
+                 Margin="10,20,10,0" Height="32" CornerRadius="5"/>
+        <CheckBox x:Name="ShowPassCheckbox" Content="Show password"
+                  Checked="ShowPassCheckbox_Changed" Unchecked="ShowPassCheckbox_Changed"
+                  VerticalAlignment="Center" HorizontalAlignment="Right"
+                  Margin="0,0,20,0" Width="140"/>
+        <!-- Control the length of the password -->
+        <TextBox x:Name="PasswordLengthBox" Text="12"
+                 VerticalAlignment="Center" HorizontalAlignment="Left"
+                 Margin="20,0,0,0" Width="80" CornerRadius="5"/>
+        <Button x:Name="IncreasePasswordLength" Content="+"
+                VerticalAlignment="Center" HorizontalAlignment="Left"
+                Margin="140,0,0,0" Width="30" CornerRadius="5" Click="IncreasePasswordLength_Click"/>
+        <Button x:Name="DecreasePasswordLength" Content="-"
+                VerticalAlignment="Center" HorizontalAlignment="Left"
+                Margin="105,0,0,0" Width="30" CornerRadius="5" Click="DecreasePasswordLength_Click"/>
+        <!-- Configure character types -->
+        <CheckBox x:Name="LettersCheckbox" Content="Use letters" IsChecked="True"
+                  Checked="LettersCheckbox_Changed" Unchecked="LettersCheckbox_Changed"
+                  VerticalAlignment="Bottom" HorizontalAlignment="Left"
+                  Margin="20,0,0,70"/>
+        <CheckBox x:Name="NumbersCheckbox" Content="Use numbers" IsChecked="True"
+                  Checked="NumbersCheckbox_Changed" Unchecked="NumbersCheckbox_Changed"
+                  VerticalAlignment="Bottom" HorizontalAlignment="Left"
+                  Margin="20,0,0,40"/>
+        <CheckBox x:Name="SymbolsCheckbox" Content="Use symbols" IsChecked="True"
+                  Checked="SymbolsCheckbox_Changed" Unchecked="SymbolsCheckbox_Changed"
+                  VerticalAlignment="Bottom" HorizontalAlignment="Left"
+                  Margin="20,0,0,10"/>
+        <!-- Generate and copy the password -->
+        <Button x:Name="GenPassButton" Content="Generate Password"
+                 VerticalAlignment="Bottom" HorizontalAlignment="Right"
+                Margin="0,0,20,60" Width="140" CornerRadius="5" Click="GenPassButton_Click"/>
+        <Button x:Name="ClipPassButton" Content="Copy to clipboard"
+                 VerticalAlignment="Bottom" HorizontalAlignment="Right"
+                Margin="0,0,20,20" Width="140" CornerRadius="5" Click="ClipPassButton_Click"/>
+    </Grid>
+</Page>
