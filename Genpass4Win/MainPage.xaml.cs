@@ -2,6 +2,7 @@
 using System.Security.Cryptography;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
+using Windows.Storage;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml.Controls;
 
@@ -17,8 +18,17 @@ namespace Genpass4Win
         public MainPage()
         {
             this.InitializeComponent();
+
+            // Configure the window
+            ApplicationView.PreferredLaunchViewSize = new Size(520, 240);
+            ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.PreferredLaunchViewSize;
+            ApplicationView.GetForCurrentView().SetPreferredMinSize(new Size(370, 220));
+
+            InitializationDone = true;
         }
 
+        // Variables used during operation
+        bool InitializationDone = false;
         private static ulong PasswordLength = 12;
         private static int CharacterTypesAllowed = 0;
         readonly private static RandomNumberGenerator rnd = RandomNumberGenerator.Create();
@@ -29,7 +39,6 @@ namespace Genpass4Win
             PasswordLength--;
             PasswordLengthBox.Text = PasswordLength.ToString();
         }
-
         private void IncreasePasswordLength_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
             PasswordLength++;
@@ -130,14 +139,14 @@ namespace Genpass4Win
 
         private void StopChangesToCharTypes()
         {
-            if (LettersCheckbox == null || NumbersCheckbox == null || SymbolsCheckbox == null) return;
+            if (!InitializationDone) return;
             LettersCheckbox.IsEnabled = !(bool)LettersCheckbox.IsChecked;
             NumbersCheckbox.IsEnabled = !(bool)NumbersCheckbox.IsChecked;
             SymbolsCheckbox.IsEnabled = !(bool)SymbolsCheckbox.IsChecked;
         }
         private void ReleaseChangesToCharTypes()
         {
-            if (LettersCheckbox == null || NumbersCheckbox == null || SymbolsCheckbox == null) return;
+            if (!InitializationDone) return;
             LettersCheckbox.IsEnabled = true;
             NumbersCheckbox.IsEnabled = true;
             SymbolsCheckbox.IsEnabled = true;
