@@ -27,7 +27,7 @@ namespace Genpass4Win
 		}
 
 		// Variables used during operation
-		bool InitializationDone = false;
+		private readonly bool InitializationDone = false;
 		private static ulong PasswordLength = 12;
 		private const ulong MaxPasswordLength = 10240;
 		private static int CharacterTypesAllowed = 0;
