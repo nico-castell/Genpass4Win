@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Security.Cryptography;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
