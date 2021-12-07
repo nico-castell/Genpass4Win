@@ -29,7 +29,7 @@ namespace Genpass4Win
 		// Variables used during operation
 		private readonly bool InitializationDone = false;
 		private static ulong PasswordLength = 12;
-		private const ulong MaxPasswordLength = 10240;
+		private const ulong MaxPasswordLength = 10000;
 		private static int CharacterTypesAllowed = 0;
 		readonly private static RandomNumberGenerator rnd = RandomNumberGenerator.Create();
 
@@ -45,7 +45,11 @@ namespace Genpass4Win
 			{
 				PasswordLength = PasswordLengthOld;
 			}
-			if (1 < PasswordLength)
+			if (1 >= PasswordLength)
+				PasswordLength = 1;
+			else if (PasswordLength > MaxPasswordLength)
+				PasswordLength = MaxPasswordLength;
+			else
 				PasswordLength--;
 			PasswordLengthBox.Text = PasswordLength.ToString();
 		}
@@ -60,7 +64,11 @@ namespace Genpass4Win
 			{
 				PasswordLength = PasswordLengthOld;
 			}
-			if (PasswordLength < MaxPasswordLength)
+			if (1 > PasswordLength)
+				PasswordLength = 1;
+			else if (PasswordLength >= MaxPasswordLength)
+				PasswordLength = MaxPasswordLength;
+			else
 				PasswordLength++;
 			PasswordLengthBox.Text = PasswordLength.ToString();
 		}
@@ -77,8 +85,10 @@ namespace Genpass4Win
 			{
 				PasswordLength = PasswordLengthOld;
 			}
-			if ((PasswordLength < 1) && (MaxPasswordLength < PasswordLength))
-				PasswordLength = PasswordLengthOld;
+			if (1 >= PasswordLength)
+				PasswordLength = 1;
+			else if (PasswordLength >= MaxPasswordLength)
+				PasswordLength = MaxPasswordLength;
 			PasswordLengthBox.Text = PasswordLength.ToString();
 
 			// Ensure OutputBox.PasswordRevealMode is set according to the checkbox
