@@ -1,5 +1,5 @@
 <h1 align="center">
-	<img src="Genpass4Win/Assets/StoreLogo.png" height="160"><br>
+	<img src="logo.svg" height="160"><br>
 	Genpass4Win
 </h1>
 
