@@ -2,7 +2,6 @@
 using System.Security.Cryptography;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
-using Windows.Storage;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml.Controls;
 
@@ -30,18 +29,39 @@ namespace Genpass4Win
         // Variables used during operation
         bool InitializationDone = false;
         private static ulong PasswordLength = 12;
+        private const ulong MaxPasswordLength = 10240;
         private static int CharacterTypesAllowed = 0;
         readonly private static RandomNumberGenerator rnd = RandomNumberGenerator.Create();
 
         // Handlers for changing the password length
         private void DecreasePasswordLength_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            PasswordLength--;
+            ulong PasswordLengthOld = PasswordLength;
+            try
+            {
+                PasswordLength = UInt64.Parse(PasswordLengthBox.Text);
+            }
+            catch (Exception)
+            {
+                PasswordLength = PasswordLengthOld;
+            }
+            if (1 < PasswordLength)
+                PasswordLength--;
             PasswordLengthBox.Text = PasswordLength.ToString();
         }
         private void IncreasePasswordLength_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            PasswordLength++;
+            ulong PasswordLengthOld = PasswordLength;
+            try
+            {
+                PasswordLength = UInt64.Parse(PasswordLengthBox.Text);
+            }
+            catch (Exception)
+            {
+                PasswordLength = PasswordLengthOld;
+            }
+            if (PasswordLength < MaxPasswordLength)
+                PasswordLength++;
             PasswordLengthBox.Text = PasswordLength.ToString();
         }
         // Handlers for generating, copying and viewing the password
@@ -56,8 +76,10 @@ namespace Genpass4Win
             catch (Exception)
             {
                 PasswordLength = PasswordLengthOld;
-                PasswordLengthBox.Text = PasswordLengthOld.ToString();
             }
+            if ((PasswordLength < 1) && (MaxPasswordLength < PasswordLength))
+                PasswordLength = PasswordLengthOld;
+            PasswordLengthBox.Text = PasswordLength.ToString();
 
             // Ensure OutputBox.PasswordRevealMode is set according to the checkbox
             OutputBox.PasswordRevealMode = !(bool)ShowPassCheckbox.IsChecked ? PasswordRevealMode.Hidden : PasswordRevealMode.Visible;
