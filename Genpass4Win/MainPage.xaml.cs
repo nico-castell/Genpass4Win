@@ -5,6 +5,11 @@ using Windows.Foundation;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml.Controls;
 
+// MIT License - Copyright (c) 2021 Nicolás Castellán
+// SPDX License identifier: MIT
+// THE SOFTWARE IS PROVIDED "AS IS"
+// Read the included LICENSE file for more information
+
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
 namespace Genpass4Win
