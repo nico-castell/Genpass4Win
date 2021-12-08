@@ -8,7 +8,7 @@
 
   <Identity
     Name="705817f8-9fb4-4301-86bf-f908aacb6351"
-    Publisher="CN=Nicolás"
+    Publisher="CN=Nicolás Castellán"
     Version="1.0.0.0" />
 
   <mp:PhoneIdentity PhoneProductId="705817f8-9fb4-4301-86bf-f908aacb6351" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>

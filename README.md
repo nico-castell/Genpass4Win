@@ -7,6 +7,7 @@
 	<a href="https://github.com/nico-castell/Genpass4Win/commits"><img alt="Commits since last release" src="https://img.shields.io/github/commits-since/nico-castell/Genpass4Win/latest?label=Commits%20since%20last%20release&color=informational&logo=git&logoColor=white&style=flat-square"></a>
 	<a href="https://github.com/nico-castell/Genpass4Win/releases"><img alt="Release" src="https://img.shields.io/github/v/release/nico-castell/Genpass4Win?label=Release&color=informational&logo=GitHub&logoColor=white&style=flat-square"></a>
 	<a href="LICENSE"><img alt="License" src="https://img.shields.io/github/license/nico-castell/Genpass4Win?label=License&color=informational&logo=Open%20Source%20Initiative&logoColor=white&style=flat-square"></a>
+	<a href="https://github.com/nico-castell/Genpass4Win/actions/workflows/uwp.yml"><img alt="UWP and CodeQL" src="https://img.shields.io/github/workflow/status/nico-castell/Genpass4Win/UWP?label=Build%20%26%20CodeQL&logo=GitHub&logoColor=white&style=flat-square"></a>
 </p>
 
 This program is a password generator for Windows systems built using the
