@@ -12,7 +12,8 @@
 
 This program is a password generator for Windows systems built using the
 [Universal Windows Platform](https://docs.microsoft.com/en-us/windows/uwp/get-started/universal-application-platform-guide),
-which allows for the creation of a GUI that integrates seamlessly with the system theme, wether its light or dark.
+which allows for the creation of a GUI that integrates seamlessly with the system theme, wether its
+light or dark.
 
 <h2 align="center">How to use</h2>
 
@@ -30,3 +31,21 @@ the password, and the bottom one to copy it to the clipboard.
 
 Above the **generate password** button there is a checkbox to control if the generated password is
 hidden or visible.
+
+<h2 align="center">How to install the project</h2>
+
+At least for now, I don't have a way to provide an easy installation without you building
+the program yourself, for which you will need some resources preinstalled. Specifically, you'll
+need [Visual Studio](https://visualstudio.microsoft.com/), and the Universal Windows Platform
+development kit (If you install Visual Studio it should prompt you to select it for installation)
+which weighs about 11GB.
+
+If you know how to use Visual Studio, you should be able to build and publish the program without
+too much hastle. Here are some useful resources:
+- [What's a Universal Windows Platform (UWP) app?](https://docs.microsoft.com/en-us/windows/uwp/get-started/universal-application-platform-guide)
+- [How to package a UWP app in Visual Studio](https://docs.microsoft.com/en-us/windows/msix/package/packaging-uwp-apps)
+
+<h2 align="center">About</h2>
+
+This program, repository, and the contributions to this repository are under the
+[MIT License](LICENSE) (SPDX license identifier: MIT).
