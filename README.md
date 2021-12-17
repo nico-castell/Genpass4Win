@@ -1,5 +1,5 @@
 <h1 align="center">
-	<img src="logo.svg" height="160"><br>
+	<img src="assets/logo.svg" height="160"><br>
 	Genpass4Win
 </h1>
 
@@ -16,6 +16,8 @@ which allows for the creation of a GUI that integrates seamlessly with the syste
 light or dark.
 
 <h2 align="center">How to use</h2>
+
+<p align="center"><img src="assets/app.png" height="370"></p>
 
 The GUI is pretty simple, with just a few buttons and checkboxes.
 
