@@ -33,18 +33,18 @@ namespace Genpass4Win
 
 		// Variables used during operation
 		private readonly bool InitializationDone = false;
-		private static ulong PasswordLength = 12;
-		private const ulong MaxPasswordLength = 10000;
-		private static int CharacterTypesAllowed = 0;
-		readonly private static RandomNumberGenerator rnd = RandomNumberGenerator.Create();
+		private int PasswordLength = 12, PasswordLengthOld = 12;
+		private readonly int MaxPasswordLength = 10000;
+		private int CharacterTypesAllowed = 0;
+		private readonly RandomNumberGenerator rnd = RandomNumberGenerator.Create();
 
 		// Handlers for changing the password length
 		private void DecreasePasswordLength_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
 		{
-			ulong PasswordLengthOld = PasswordLength;
+			PasswordLengthOld = PasswordLength;
 			try
 			{
-				PasswordLength = UInt64.Parse(PasswordLengthBox.Text);
+				PasswordLength = Int32.Parse(PasswordLengthBox.Text);
 			}
 			catch (Exception)
 			{
@@ -60,10 +60,10 @@ namespace Genpass4Win
 		}
 		private void IncreasePasswordLength_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
 		{
-			ulong PasswordLengthOld = PasswordLength;
+			PasswordLengthOld = PasswordLength;
 			try
 			{
-				PasswordLength = UInt64.Parse(PasswordLengthBox.Text);
+				PasswordLength = Int32.Parse(PasswordLengthBox.Text);
 			}
 			catch (Exception)
 			{
@@ -80,11 +80,11 @@ namespace Genpass4Win
 		// Handlers for generating, copying and viewing the password
 		private void GenPassButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
 		{
-			ulong PasswordLengthOld = PasswordLength;
+			PasswordLengthOld = PasswordLength;
 			// Get the password length
 			try
 			{
-				PasswordLength = UInt64.Parse(PasswordLengthBox.Text);
+				PasswordLength = Int32.Parse(PasswordLengthBox.Text);
 			}
 			catch (Exception)
 			{
@@ -96,18 +96,31 @@ namespace Genpass4Win
 				PasswordLength = MaxPasswordLength;
 			PasswordLengthBox.Text = PasswordLength.ToString();
 
-			// Ensure OutputBox.PasswordRevealMode is set according to the checkbox
-			OutputBox.PasswordRevealMode = !(bool)ShowPassCheckbox.IsChecked ? PasswordRevealMode.Hidden : PasswordRevealMode.Visible;
-
 			// Get the allowed character types
 			bool UseLetters = (bool)LettersCheckbox.IsChecked;
 			bool UseNumbers = (bool)NumbersCheckbox.IsChecked;
 			bool UseSymbols = (bool)SymbolsCheckbox.IsChecked;
 
-			// Write the password
 			string GeneratedPassword = "";
+
+			// Use faster algorithm when all characters are allowed
+			if (UseLetters & UseNumbers & UseSymbols != false)
+			{
+				byte[] ArrayGeneratedPassword = new byte[PasswordLength];
+				rnd.GetBytes(ArrayGeneratedPassword, 0, PasswordLength);
+				for (int i = 0; i < PasswordLength; i++)
+				{
+					ArrayGeneratedPassword[i] %= 95;
+					ArrayGeneratedPassword[i] += 32;
+					GeneratedPassword += (char)ArrayGeneratedPassword[i];
+				}
+				OutputBox.Password = GeneratedPassword;
+				return;
+			}
+
+			// Get, process and dump the random data
 			byte[] GeneratedByte = { 0 };
-			for (ulong i = 0UL; i < PasswordLength; i++)
+			for (int i = 0; i < PasswordLength; i++)
 			{
 				rnd.GetBytes(GeneratedByte);
 				GeneratedByte[0] %= 94;
